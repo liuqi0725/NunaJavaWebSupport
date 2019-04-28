@@ -4,16 +4,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <name>Nuna-java-web-support</name>
     <groupId>com.35liuqi</groupId>
-    <artifactId>Nuna-base</artifactId>
-    <version>0.0.1</version>
+    <artifactId>Nuna-Web</artifactId>
+    <version>0.0.1-preview</version>
     <description>基于java web 应用的快速开发应用包</description>
     <packaging>pom</packaging>
     <url>https://github.com/liuqi0725/NunaJavaWebSupport</url>
 
     <modules>
-        <module>Nuna-common</module>
-        <module>Nuna-mvc</module>
+        <module>Nuna-Web-core</module>
+        <module>Nuna-Web-common</module>
+        <module>Nuna-Web-mvc</module>
     </modules>
 
     <licenses>
@@ -297,16 +299,30 @@
 
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <profiles>
         <profile>
             <id>release</id>
             <distributionManagement>
                 <snapshotRepository>
-                    <id>Nuna-base</id>
+                    <id>Nuna-Web</id>
                     <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
                 </snapshotRepository>
                 <repository>
-                    <id>Nuna-base</id>
+                    <id>Nuna-Web</id>
                     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
             </distributionManagement>

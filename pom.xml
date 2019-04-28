@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.35liuqi</groupId>
-    <artifactId>Nuna-core</artifactId>
+    <artifactId>Nuna-base</artifactId>
     <version>0.0.1</version>
     <description>基于java web 应用的快速开发应用包</description>
-    <packaging>jar</packaging>
-    <url>https://github.com/liuqi0725/Jarvis-framework</url>
+    <packaging>pom</packaging>
+    <url>https://github.com/liuqi0725/NunaJavaWebSupport</url>
 
     <modules>
         <module>Nuna-common</module>
@@ -25,8 +25,8 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/liuqi0725/Jarvis-framework</url>
-        <connection>https://github.com/liuqi0725/Jarvis-framework.git</connection>
+        <url>https://github.com/liuqi0725/NunaJavaWebSupport</url>
+        <connection>https://github.com/liuqi0725/NunaJavaWebSupport.git</connection>
     </scm>
 
     <developers>
@@ -295,46 +295,6 @@
             <version>${springframework.version}</version>
         </dependency>
 
-        <!-- shiro -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-ehcache</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-web</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>${shiro.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-        </dependency>
     </dependencies>
 
     <profiles>
@@ -342,11 +302,11 @@
             <id>release</id>
             <distributionManagement>
                 <snapshotRepository>
-                    <id>Nuna-framework</id>
+                    <id>Nuna-base</id>
                     <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
                 </snapshotRepository>
                 <repository>
-                    <id>Nuna-framework</id>
+                    <id>Nuna-base</id>
                     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
             </distributionManagement>

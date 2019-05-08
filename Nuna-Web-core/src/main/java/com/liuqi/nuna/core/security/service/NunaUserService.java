@@ -30,6 +30,16 @@ public interface NunaUserService {
     NunaUser summerFindUserByName(String account);
 
     /**
+     * 查询用户
+     * @param account 登录账号
+     * @param vcid 虚拟中心
+     *             支持多虚拟中心统一登录到系统，虚拟中心不影响角色，权限，只是限定用户的操作区间
+     *             设置虚拟中心的用户，必须在其他使用范围内规范 vcid
+     * @return 用户
+     */
+    NunaUser summerFindUserByName(String account , String vcid);
+
+    /**
      * 查找当前登录用户的权限集合
      * @return 权限名称集合
      */

@@ -1,7 +1,9 @@
 package com.liuqi.nuna.core.security;
 
 import com.liuqi.nuna.core.security.service.NunaUserService;
+import com.liuqi.nuna.core.security.token.UsernamePasswordVcToken;
 import com.liuqi.nuna.core.utils.EncodesUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authc.*;
@@ -50,10 +52,17 @@ public class NunaUserRealm extends AuthorizingRealm {
 
         //获取页面参数
         // username password rememberMe
-        UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
-
+        /*
+         * 0.0.2 更新为可通过虚拟中心 vcid 登录
+         */
+        UsernamePasswordVcToken token = (UsernamePasswordVcToken) authcToken;
         //查询用户
-        NunaUser user = userService.summerFindUserByName(token.getUsername());
+        NunaUser user = null;
+        if(StringUtils.isEmpty(token.getVcid())){
+            user = userService.summerFindUserByName(token.getUsername());
+        }else{
+            user = userService.summerFindUserByName(token.getUsername() , token.getVcid());
+        }
 
         if (user == null) {
             throw new UnknownAccountException();// 没有找到账号，会返回 controller

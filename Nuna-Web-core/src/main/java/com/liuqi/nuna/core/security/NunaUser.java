@@ -19,6 +19,8 @@ public class NunaUser {
 
     private Integer id;
 
+    private String vcid;
+
     private String account;
 
     private String nickname;
@@ -45,6 +47,14 @@ public class NunaUser {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getVcid() {
+        return vcid;
+    }
+
+    public void setVcid(String vcid) {
+        this.vcid = vcid;
     }
 
     public String getAccount() {

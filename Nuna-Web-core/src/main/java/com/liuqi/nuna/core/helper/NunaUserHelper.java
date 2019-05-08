@@ -4,6 +4,7 @@ package com.liuqi.nuna.core.helper;
 import com.liuqi.nuna.core.e.UserLoginException;
 import com.liuqi.nuna.core.security.NunaSecurityConstants;
 import com.liuqi.nuna.core.security.NunaUser;
+import com.liuqi.nuna.core.security.token.UsernamePasswordVcToken;
 import com.liuqi.nuna.core.utils.EncodesUtils;
 import com.liuqi.nuna.core.utils.crypt.SimpleCryptUtils;
 import org.apache.logging.log4j.LogManager;
@@ -123,13 +124,28 @@ public class NunaUserHelper implements Serializable{
      * 用户登录
      * @param account 账号
      * @param password 密码
+     * @param vcid 虚拟中心
+     * @throws UserLoginException 登陆异常
+     */
+    public void login(String account,String password ,String vcid) throws UserLoginException {
+        UsernamePasswordVcToken token = new UsernamePasswordVcToken(account, password , vcid);
+        this.login(token);
+    }
+
+    /**
+     * 用户登录
+     * @param account 账号
+     * @param password 密码
      * @throws UserLoginException 登陆异常
      */
     public void login(String account,String password) throws UserLoginException {
-        UsernamePasswordToken token = new UsernamePasswordToken(account,password);
+        UsernamePasswordVcToken token = new UsernamePasswordVcToken(account,password);
+        this.login(token);
+    }
+
+    private void login(UsernamePasswordVcToken token) throws UserLoginException {
         Subject subject = SecurityUtils.getSubject();
         subject.login(token);
-
         try {
             subject.login(token);
         } catch (AuthenticationException e) {

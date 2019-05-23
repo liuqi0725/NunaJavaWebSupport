@@ -30,7 +30,7 @@ public class NunaLogAspect {
      *
      *
      *     <bean id="systemlog" class="com.fangxu.app.core.SystemLog" />
-     *     <bean id="summerlog" class="com.liuqi.summer.core.log.SummerLogAspect">
+     *     <bean id="nunalog" class="com.liuqi.summer.core.log.SummerLogAspect">
      *         <property name="appLogs" ref="systemlog"/>
      *     </bean>
      *
@@ -61,7 +61,7 @@ public class NunaLogAspect {
 
     }
 
-    public void setAppLogs(NunaLogAppImpl applogs) {
+    public void setAppLogs(NunaLogAppImpl appLogs) {
         this.appLogs = appLogs;
     }
 

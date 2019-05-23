@@ -1,6 +1,7 @@
 package com.liuqi.nuna.mvc.base;
 
 import com.liuqi.nuna.common.res.DataResult;
+import com.liuqi.nuna.common.res.PageDataResult;
 import com.liuqi.nuna.core.c.ResponseMessageType;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
@@ -170,6 +171,20 @@ public class NunaController {
         ret.put("msg", msg);
         ret.put("count", dataCount == null ? 0 : dataCount);
         ret.put("data", data);
+        return ret;
+    }
+
+    /**
+     * 返回 layui table 的数据类型
+     * @param res 分页查询返回值 {@link PageDataResult}
+     * @return map
+     */
+    protected Map<String, Object> renderLayuiTableData(PageDataResult res){
+        Map<String, Object> ret = new HashMap<String,Object>();
+        ret.put("code", res.getStatus() ? 0 : 1);
+        ret.put("msg", res.getMsg());
+        ret.put("count", res.getTotal() == null ? 0 : res.getTotal());
+        ret.put("data", res.getPageData());
         return ret;
     }
 

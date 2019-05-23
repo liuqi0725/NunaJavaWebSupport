@@ -10,6 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Nuna-Web-mvc</artifactId>
+    <version>0.0.3-preview</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -17,7 +18,7 @@
         <dependency>
             <groupId>com.35liuqi</groupId>
             <artifactId>Nuna-Web-common</artifactId>
-            <version>0.0.1-preview</version>
+            <version>0.0.3-preview</version>
         </dependency>
 
         <!-- Spring -->

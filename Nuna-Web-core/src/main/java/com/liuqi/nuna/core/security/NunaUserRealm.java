@@ -59,9 +59,9 @@ public class NunaUserRealm extends AuthorizingRealm {
         //查询用户
         NunaUser user = null;
         if(StringUtils.isEmpty(token.getVcid())){
-            user = userService.summerFindUserByName(token.getUsername());
+            user = userService.nunaFindUserByName(token.getUsername());
         }else{
-            user = userService.summerFindUserByName(token.getUsername() , token.getVcid());
+            user = userService.nunaFindUserByName(token.getUsername() , token.getVcid());
         }
 
         if (user == null) {
@@ -114,7 +114,7 @@ public class NunaUserRealm extends AuthorizingRealm {
 //            info.addRoles(roleNames);
 //        }
 
-        Set<String> perms = userService.summerFindUserPermissions();
+        Set<String> perms = userService.nunaFindUserPermissions();
         if(perms == null){
             throw new AuthenticationException("用户权限查询为空!");
         }else{

@@ -12,7 +12,7 @@ import java.util.Set;
  * <p>
  * 构造说明 :
  * <pre>
- *   public interface UserService extends SummerUserService{
+ *   public interface UserService extends NunaUserService{
  *      ...
  *   }
  * </pre>
@@ -27,7 +27,7 @@ public interface NunaUserService {
      * @param account 登录账号
      * @return 用户
      */
-    NunaUser summerFindUserByName(String account);
+    NunaUser nunaFindUserByName(String account);
 
     /**
      * 查询用户
@@ -37,18 +37,18 @@ public interface NunaUserService {
      *             设置虚拟中心的用户，必须在其他使用范围内规范 vcid
      * @return 用户
      */
-    NunaUser summerFindUserByName(String account , String vcid);
+    NunaUser nunaFindUserByName(String account , String vcid);
 
     /**
      * 查找当前登录用户的权限集合
      * @return 权限名称集合
      */
-    Set<String> summerFindUserPermissions();
+    Set<String> nunaFindUserPermissions();
 
     /**
      * 查找当前登录用户的角色集合
      * @param uid 角色 id
      * @return 角色名称集合
      */
-    Set<String> summerFindUserRoles(Integer uid);
+    Set<String> nunaFindUserRoles(Integer uid);
 }

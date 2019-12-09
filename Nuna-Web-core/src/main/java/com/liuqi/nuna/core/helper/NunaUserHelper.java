@@ -42,7 +42,7 @@ public class NunaUserHelper implements Serializable{
 
     }
 
-    private static class SummerUserHolder{
+    private static class NunaUserHolder{
         private final static NunaUserHelper instance = new NunaUserHelper();
     }
 
@@ -51,7 +51,7 @@ public class NunaUserHelper implements Serializable{
      * @return 实体 {@link NunaUserHelper}
      */
     public static NunaUserHelper getInstance(){
-        return NunaUserHelper.SummerUserHolder.instance;
+        return NunaUserHelper.NunaUserHolder.instance;
     }
 
     /**

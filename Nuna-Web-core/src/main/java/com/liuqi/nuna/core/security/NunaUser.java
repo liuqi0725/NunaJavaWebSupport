@@ -1,5 +1,6 @@
 package com.liuqi.nuna.core.security;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Date;
  * @author : alexliu
  * @version v1.0 , Create at 12:53 PM 2018/11/9
  */
-public class NunaUser {
+public class NunaUser implements Serializable{
 
     private Integer id;
 
@@ -37,9 +38,32 @@ public class NunaUser {
 
     private Integer locked;
 
+    private Integer admin;
+
     private Date createAt;
 
     private Date updateAt;
+
+    /**
+     * 用户的私有 cache key ，用来保存到 cache 中的标识。该 cachekey 用以保存用户特有缓存数据
+     */
+    private String cacheKey;
+
+    public String getCacheKey() {
+        return cacheKey;
+    }
+
+    public void setCacheKey(String cacheKey) {
+        this.cacheKey = cacheKey;
+    }
+
+    public Integer getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Integer admin) {
+        this.admin = admin;
+    }
 
     public Integer getId() {
         return id;

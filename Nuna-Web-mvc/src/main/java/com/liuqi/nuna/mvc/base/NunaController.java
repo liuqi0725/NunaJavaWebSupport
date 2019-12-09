@@ -3,9 +3,15 @@ package com.liuqi.nuna.mvc.base;
 import com.liuqi.nuna.common.res.DataResult;
 import com.liuqi.nuna.common.res.PageDataResult;
 import com.liuqi.nuna.core.c.ResponseMessageType;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -202,6 +208,21 @@ public class NunaController {
         ret.put("msg", msg);
         ret.put("data", data);
         return ret;
+    }
+
+    /**
+     * 过滤前台直接传 bean 参数处理
+     * @param binder
+     */
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setLenient(false);
+
+        //第二个参数是控制是否支持传入的值是空，这个值很关键，如果指定为false，那么如果前台没有传值的话就会报错
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
+
     }
 
 

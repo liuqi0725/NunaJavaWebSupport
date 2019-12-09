@@ -52,7 +52,7 @@ public class NunaBootStrap implements ApplicationContextAware {
         cacheInit();
 
         logger.info("初始化 Nuna.UserUtils .");
-        summerUserInit();
+        nunaUserInit();
 
         logger.info("----------------------------------");
         logger.info("Summer 初始化.结束");
@@ -92,9 +92,10 @@ public class NunaBootStrap implements ApplicationContextAware {
         Nuna.cache = NunaCacheHelper.getInstance(cacheCacheManager);
     }
 
-    private void summerUserInit(){
+    private void nunaUserInit(){
         Nuna.UserUtils = NunaUserHelper.getInstance();
         logger.info("Nuna UserManager set on. {}", Nuna.UserUtils);
     }
+
 
 }

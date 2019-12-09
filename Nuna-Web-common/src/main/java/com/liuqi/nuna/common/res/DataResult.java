@@ -1,10 +1,12 @@
 package com.liuqi.nuna.common.res;
 
 
+import com.liuqi.nuna.common.e.DataResultConvertException;
 import com.liuqi.nuna.common.e.DataResultException;
 import com.liuqi.nuna.core.c.ResponseMessageType;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,6 +47,47 @@ public class DataResult {
 
     public Map<String, Object> getData() {
         return data;
+    }
+
+    public String getDataAsString (String key){
+        return (String)this.getData().get(key);
+    }
+
+    public boolean getDataAsBoolean (String key){
+        return (boolean)this.getData().get(key);
+    }
+
+    public Integer getDataAsInteger (String key){
+        return (Integer)this.getData().get(key);
+    }
+
+    public <T> T getDataAsObject (String key , Class<T> classz) throws DataResultConvertException {
+
+        Object obj = this.getData().get(key);
+
+        // 判断 obj 是否能强转为参数的泛型。不能强转就抛锅。
+        if (classz != null && !classz.isInstance(obj)) {
+            throw new DataResultConvertException("key >> " + key +", get obj >> " + obj.getClass() + " is not " + classz);
+        }
+
+        return (T)obj;
+    }
+
+    public <T> List<T> getDataAsList (String key , Class<T> classz) throws DataResultConvertException {
+
+        List<Object> objList = (List)this.getData().get(key);
+
+        Object obj = objList.get(0);
+        // 判断 obj 是否能强转为参数的泛型。不能强转就抛锅。
+        if (classz != null && !classz.isInstance(obj)) {
+            throw new DataResultConvertException("key >> " + key +", get obj >> " + obj.getClass() + " is not " + classz);
+        }
+
+        return (List<T>)objList;
+    }
+
+    public Map getDataAsMap (String key) {
+        return (Map)this.getData().get(key);
     }
 
     public void setData(String key, Object dataVal) {

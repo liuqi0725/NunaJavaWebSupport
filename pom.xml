@@ -7,7 +7,7 @@
     <name>Nuna-java-web-support</name>
     <groupId>com.35liuqi</groupId>
     <artifactId>Nuna-Web</artifactId>
-    <version>0.0.1-preview</version>
+    <version>1.0-preview</version>
     <description>基于java web 应用的快速开发应用包</description>
     <packaging>pom</packaging>
     <url>https://github.com/liuqi0725/NunaJavaWebSupport</url>

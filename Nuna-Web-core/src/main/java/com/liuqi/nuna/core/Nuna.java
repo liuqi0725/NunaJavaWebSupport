@@ -18,17 +18,18 @@ import org.springframework.context.ApplicationContext;
 public class Nuna {
 
     /**
-     * cache, 缓存实体，详见 {@link NunaCacheHelper}
+     * cache, 缓存实体 {@see NunaCacheHelper}
      */
     public static NunaCacheHelper cache = null;
 
     /**
-     * spring 上下文 , 详见 {@link ApplicationContext}
+     * spring 上下文  {@see ApplicationContext}
      */
     public static ApplicationContext SpringContext = null;
 
     /**
-     * 登陆安全用户 详见 {@link NunaUserHelper}
+     * 登陆安全用户 {@see NunaUserHelper}
      */
     public static NunaUserHelper UserUtils = null;
+
 }

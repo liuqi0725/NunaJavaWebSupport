@@ -5,12 +5,12 @@
     <parent>
         <artifactId>Nuna-Web</artifactId>
         <groupId>com.35liuqi</groupId>
-        <version>0.0.1-preview</version>
+        <version>1.0-preview</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Nuna-Web-core</artifactId>
-    <version>0.0.3-preview</version>
+    <version>1.0.5</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -55,5 +55,6 @@
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
         </dependency>
+
     </dependencies>
 </project>

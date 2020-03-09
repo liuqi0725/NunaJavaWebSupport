@@ -12,12 +12,8 @@ package com.liuqi.nuna.core.c;
  * @author : alexliu
  * @version v1.0 , Create at 3:36 PM 2018/10/25
  */
-public interface ResponseMessageType {
+public enum ResponseMessageType {
 
-    public static final String ERROR = "error";
-
-    public static final String SUCCESS = "success";
-
-    public static final String WARN = "warn";
+    ERROR,SUCCESS,WARN
 
 }

@@ -3,6 +3,7 @@ package com.liuqi.nuna.mvc.base;
 import com.liuqi.nuna.common.res.DataResult;
 import com.liuqi.nuna.common.res.PageDataResult;
 import com.liuqi.nuna.core.c.ResponseMessageType;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.web.bind.WebDataBinder;
@@ -32,15 +33,44 @@ public class NunaController {
     /**
      * 返回 json 对象
      * @author alexliu
-     * @param params 按照 status 状态 、data 数据、message、传递
+     * @param params 入参，参数最大长度：3 <br>
+     *        支持如下类型参数:<br>
+     *        <ul>
+     *               <li>{@link java.lang.Boolean} 代表接口执行的结果，默认为 true</li>
+     *               <li>{@link java.lang.String} 代表返回的消息，默认为空 </li>
+     *               <li>{@link java.util.Map Map&lt;String, Object&gt;} 代表返回的数据，默认为空</li>
+     *        </ul>
      * @return map 类型
      */
     protected Map<String, Object> renderJSON(Object... params){
 
+        boolean success = true;
+        String msg = "";
+        Map data = null;
+
+        int index = 0;
+
+        for(Object o : params){
+            if(o instanceof Boolean){
+                success = (Boolean) o;
+            }else if(o instanceof String){
+                msg = (String)o;
+            }else if(o instanceof Map){
+                data = (Map)o;
+            }else{
+                throw new RuntimeException("The params Only support [Boolean] , [String] , [Map] Type. but ["+o.getClass().getName()+"] given." );
+            }
+            index++;
+        }
+
+        if(index > 3){
+            throw new RuntimeException("The method max support 3 param. but ["+index+"] given." );
+        }
+
         Map<String, Object> map = new HashMap<String,Object>();
-        map.put("success", params[0]);
-        map.put("data", params.length >= 2 ? params[1] : null);
-        map.put("msg", params.length >= 3 ? params[2] : null);
+        map.put("success", success);
+        map.put("data", data);
+        map.put("msg", msg);
         return map;
     }
 
@@ -61,28 +91,84 @@ public class NunaController {
     }
 
     /**
-     * springMVC 重定向
-     * @param action 例如 /test/getUser
-     * @return 重定向的路径
+     * 返回 layui table 的数据类型
+     * @param res 分页查询返回值 {@link PageDataResult}
+     * @return map
      */
-    protected String redirect(String action){
-        return "redirect:"+action;
+    protected Map<String, Object> renderLayuiTableData(PageDataResult res){
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("code", res.getStatus() ? 0 : 1);
+        ret.put("msg", res.getMsg());
+        ret.put("count", res.getTotal() == null ? 0 : res.getTotal());
+        ret.put("data", res.getPageData());
+        return ret;
     }
 
+    /**
+     * 重定向到指定路径
+     * @param redirectUrl <b>不能为空</b>。<br>
+     *                   <b>比如:</b> <br>
+     *                   /user/list <br> /user/info/1 <br> /user/info?id=1&amp;name=admin;
+     * @return 重定向的路径
+     */
+    protected String redirectURL(String redirectUrl){
+        return "redirect:"+redirectUrl;
+    }
+
+    /**
+     * 重定向到指定路径
+     * @param params 例如 /test/getUser
+     *        支持如下类型参数:<br>
+     *        <ul>
+     *               <li>{@link ModelAndView} 如果不传，由方法内部新建。</li>
+     *               <li>{@link java.lang.String} redirectUrl <b>不能为空</b>。<br>
+     *                   <b>比如:</b> <br>
+     *                   /user/list <br> /user/info/1 <br> /user/info?id=1&amp;name=admin;
+     *               </li>
+     *        </ul>
+     * @return {@link ModelAndView}
+     */
+    protected ModelAndView redirect(Object... params){
+
+        ModelAndView mv = null;
+        String redirectUrl = "";
+
+        for(Object o : params){
+            if(o instanceof ModelAndView){
+                mv = (ModelAndView)o;
+            }else if(o instanceof String){
+                redirectUrl = (String)o;
+            }else{
+                throw new RuntimeException("The params Only support [ModelAndView] , [String] Type. but ["+o.getClass().getName()+"] given." );
+            }
+        }
+
+        if(StringUtils.isEmpty(redirectUrl)){
+            throw new RuntimeException("Not found redirect URL." );
+        }
+
+        if(mv == null){
+            mv = new ModelAndView();
+        }
+
+        mv.setViewName("redirect:" + redirectUrl);
+
+        return mv;
+    }
 
     /**
      *
      * @param model 重定向 map
-     * @param msg_type 绑定 {@link DataResult#getMsg_type()}
+     * @param msg_type 消息类型 {@link ResponseMessageType}
      * @param msg spring mvc 返回消息
      */
-    protected void setRediectMessage(RedirectAttributesModelMap model,String msg_type , String msg){
+    protected void setRediectMessage(RedirectAttributesModelMap model,ResponseMessageType msg_type , String msg){
 
-        if(msg_type.equalsIgnoreCase(ResponseMessageType.SUCCESS)){
+        if(msg_type == ResponseMessageType.SUCCESS){
             setRediectSuccessMessage(model,msg);
-        }else if(msg_type.equalsIgnoreCase(ResponseMessageType.ERROR)){
+        }else if(msg_type == ResponseMessageType.ERROR){
             setRediectErrorMessage(model,msg);
-        }else if(msg_type.equalsIgnoreCase(ResponseMessageType.WARN)){
+        }else if(msg_type == ResponseMessageType.WARN){
             setRediectWarnMessage(model,msg);
         }
     }
@@ -119,16 +205,16 @@ public class NunaController {
     /**
      * 设置视图 spring mvc 返回消息
      * @param mav map
-     * @param msg_type 绑定 {@link DataResult#getMsg_type()}
+     * @param msg_type 消息类型 {@link ResponseMessageType}
      * @param msg 消息体
      */
-    protected void setForwardSuccessMessage(ModelAndView mav , String msg_type , String msg){
+    protected void setForwardSuccessMessage(ModelAndView mav , ResponseMessageType msg_type , String msg){
 
-        if(msg_type.equalsIgnoreCase(ResponseMessageType.SUCCESS)){
+        if(msg_type == ResponseMessageType.SUCCESS){
             setForwardSuccessMessage(mav,msg);
-        }else if(msg_type.equalsIgnoreCase(ResponseMessageType.ERROR)){
+        }else if(msg_type == ResponseMessageType.ERROR){
             setForwardErrorMessage(mav,msg);
-        }else if(msg_type.equalsIgnoreCase(ResponseMessageType.WARN)){
+        }else if(msg_type == ResponseMessageType.WARN){
             setForwardWarningMessage(mav,msg);
         }
     }
@@ -164,55 +250,8 @@ public class NunaController {
     }
 
     /**
-     * 返回 layui table 的数据类型
-     * @param status 状态
-     * @param data 数据
-     * @param dataCount 总行数
-     * @param msg 消息 ,仅在失败时有效
-     * @return map
-     */
-    protected Map<String, Object> renderLayuiTableData(boolean status,Object data,Integer dataCount,String msg){
-        Map<String, Object> ret = new HashMap<String,Object>();
-        ret.put("code", status ? 0 : 1);
-        ret.put("msg", msg);
-        ret.put("count", dataCount == null ? 0 : dataCount);
-        ret.put("data", data);
-        return ret;
-    }
-
-    /**
-     * 返回 layui table 的数据类型
-     * @param res 分页查询返回值 {@link PageDataResult}
-     * @return map
-     */
-    protected Map<String, Object> renderLayuiTableData(PageDataResult res){
-        Map<String, Object> ret = new HashMap<String,Object>();
-        ret.put("code", res.getStatus() ? 0 : 1);
-        ret.put("msg", res.getMsg());
-        ret.put("count", res.getTotal() == null ? 0 : res.getTotal());
-        ret.put("data", res.getPageData());
-        return ret;
-    }
-
-    /**
-     * 返回 layui fileupload 标准数据
-     * @param status 众泰
-     * @param data 数据
-     * @param msg 消息
-     * @return map
-     */
-    protected Map<String,Object> renderLayuiFileUpload(boolean status,Object data,String msg){
-
-        Map<String, Object> ret = new HashMap<String,Object>();
-        ret.put("code", status ? 0 : 1);
-        ret.put("msg", msg);
-        ret.put("data", data);
-        return ret;
-    }
-
-    /**
      * 过滤前台直接传 bean 参数处理
-     * @param binder
+     * @param binder {@link WebDataBinder}
      */
     @InitBinder
     protected void initBinder(WebDataBinder binder) {

@@ -25,7 +25,7 @@ public @interface NunaLog {
     /**
      * 操作类型, 详见： {@link NunaLogOperationType}
      */
-    String operationType() default "";
+    NunaLogOperationType operationType();
 
 
     /**

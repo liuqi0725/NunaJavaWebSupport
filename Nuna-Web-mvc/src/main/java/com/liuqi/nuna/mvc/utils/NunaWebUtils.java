@@ -13,10 +13,7 @@ import java.security.MessageDigest;
 /**
  * 类说明 <br>
  * <p>
- * 构造说明 :
- * <pre>
- *
- * </pre>
+ * 构造说明 : 无
  *
  * @author : alexliu
  * @version v1.0 , Create at 2:00 PM 2019/12/9
@@ -74,6 +71,17 @@ public class NunaWebUtils {
     }
 
     /**
+     * 设置session属性
+     * @param key 键
+     * @param data 值
+     */
+    public static void setSessionAttribute(Enum key , Object data) {
+        HttpServletRequest request = getRequest();
+        String keyStr = key.name() + key.hashCode();
+        request.getSession().setAttribute(getSessionAttributeKey(keyStr), data);
+    }
+
+    /**
      * 获取session属性
      * @param key 键
      * @return {@link Object}
@@ -81,6 +89,17 @@ public class NunaWebUtils {
     public static Object getSessionAttribute(String key) {
         HttpServletRequest request = getRequest();
         return request.getSession().getAttribute(getSessionAttributeKey(key));
+    }
+
+    /**
+     * 获取session属性
+     * @param key 键
+     * @return {@link Object}
+     */
+    public static Object getSessionAttribute(Enum key) {
+        HttpServletRequest request = getRequest();
+        String keyStr = key.name() + key.hashCode();
+        return request.getSession().getAttribute(getSessionAttributeKey(keyStr));
     }
 
     /**

@@ -12,7 +12,7 @@ package com.liuqi.nuna.core.e;
  * @author : alexliu
  * @version v1.0 , Create at 10:32 AM 2019/4/26
  */
-public class UserLoginException extends Exception {
+public class UserLoginException extends RuntimeException {
 
     private static final long serialVersionUID = -9032322389937253168L;
 

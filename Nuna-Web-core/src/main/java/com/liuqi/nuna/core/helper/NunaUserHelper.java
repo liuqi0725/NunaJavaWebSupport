@@ -7,10 +7,12 @@ import com.liuqi.nuna.core.security.NunaUser;
 import com.liuqi.nuna.core.security.token.UsernamePasswordVcToken;
 import com.liuqi.nuna.core.utils.EncodesUtils;
 import com.liuqi.nuna.core.utils.crypt.SimpleCryptUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
@@ -125,9 +127,14 @@ public class NunaUserHelper implements Serializable{
      * @param account 账号
      * @param password 密码
      * @param vcid 虚拟中心
-     * @throws UserLoginException 登陆异常
+     * @throws UserLoginException It`s RuntimeException
      */
-    public void login(String account,String password ,String vcid) throws UserLoginException {
+    public void login(String account,String password ,String vcid){
+
+        checkAccount(account);
+        checkPwd(password);
+        checkVcid(vcid);
+
         UsernamePasswordVcToken token = new UsernamePasswordVcToken(account, password , vcid);
         this.login(token);
     }
@@ -136,20 +143,48 @@ public class NunaUserHelper implements Serializable{
      * 用户登录
      * @param account 账号
      * @param password 密码
-     * @throws UserLoginException 登陆异常
+     * @throws UserLoginException It`s RuntimeException
      */
-    public void login(String account,String password) throws UserLoginException {
+    public void login(String account,String password){
+
+        checkAccount(account);
+        checkPwd(password);
+
         UsernamePasswordVcToken token = new UsernamePasswordVcToken(account,password);
         this.login(token);
     }
 
-    private void login(UsernamePasswordVcToken token) throws UserLoginException {
+    private void checkAccount(String account){
+        if(StringUtils.isEmpty(account)){
+            throw new UserLoginException("Account 不能为空！");
+        }
+    }
+
+    private void checkPwd(String password){
+        if(StringUtils.isEmpty(password)){
+            throw new UserLoginException("Password 不能为空！");
+        }
+    }
+
+    private void checkVcid(String vcid){
+        if(StringUtils.isEmpty(vcid)){
+            throw new UserLoginException("VCID 不能为空！");
+        }
+    }
+
+    /**
+     * 登陆
+     * @param token token
+     * @throws UserLoginException It`s RuntimeException
+     */
+    private void login(UsernamePasswordVcToken token) {
         Subject subject = SecurityUtils.getSubject();
-        subject.login(token);
         try {
             subject.login(token);
-        } catch (AuthenticationException e) {
-            throw new UserLoginException("登陆失败，用户名或密码错误！");
+        } catch (UnknownAccountException e){
+            throw new UserLoginException("用户不存在！");
+        } catch (AuthenticationException e2){
+            throw new UserLoginException("登陆失败，请检查账号、密码等信息");
         }
     }
 

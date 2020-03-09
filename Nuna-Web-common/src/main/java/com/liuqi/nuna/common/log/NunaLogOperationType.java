@@ -13,16 +13,32 @@ package com.liuqi.nuna.common.log;
  * @author : alexliu
  * @version v1.0 , Create at 10:32 AM 2019/4/26
  */
-public final class NunaLogOperationType {
+public enum NunaLogOperationType {
 
-    public static final String add = "1";
+    LOGIN("login","登陆操作"),
+    LOGINOUT("loginout","退出登陆操作"),
+    ADD("add","添加操作"),
+    DELETE("delete","删除操作"),
+    UPDATE("update","修改操作"),
+    QUERY("query","查询操作"),
+    BATCH("batch","批量操作");
 
-    public static final String delete = "2";
+    private String val;
 
-    public static final String update = "3";
+    private String description;
 
-    public static final String query = "4";
+    private NunaLogOperationType(String val , String description){
+        this.val = val;
+        this.description = description;
+    }
 
-    public static final String login = "5";
+    public String getVal(){
+        return this.val;
+    }
 
+
+    @Override
+    public String toString() {
+        return this.val;
+    }
 }

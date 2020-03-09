@@ -29,7 +29,7 @@ public class DataResult {
 
     private String msg = "";
 
-    private String msg_type = ResponseMessageType.SUCCESS;
+    private ResponseMessageType msg_type = ResponseMessageType.SUCCESS;
 
     private Map<String ,Object> data = new HashMap<String , Object>();
 
@@ -41,7 +41,7 @@ public class DataResult {
         return msg;
     }
 
-    public String getMsg_type() {
+    public ResponseMessageType getMsg_type() {
         return msg_type;
     }
 

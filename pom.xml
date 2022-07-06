@@ -44,7 +44,7 @@
         <log4j2.version>2.1</log4j2.version>
         <mybatis.version>3.4.4</mybatis.version>
         <mybatis-spring.version>1.3.1</mybatis-spring.version>
-        <shiro.version>1.3.2</shiro.version>
+        <shiro.version>1.9.1</shiro.version>
         <ehcache.version>3.6.1</ehcache.version>
         <freemarker.version>2.3.27-incubating</freemarker.version>
         <rapid-framework.version>4.0</rapid-framework.version>
